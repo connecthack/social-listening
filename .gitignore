@@ -1,4 +1,5 @@
 .env
 venv
 database/test_data
+myvenv
 database/__pycache__
