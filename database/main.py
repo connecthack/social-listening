@@ -17,8 +17,6 @@ from fill_database import Database
 dotenv.load_dotenv('../.env')
 
 OPENAI_APIKEY = os.getenv('OPENAI_APIKEY')  
-PROXY_HTTP = os.getenv('PROXY_HTTP')  
-PROXY_HTTPS = os.getenv('PROXY_HTTPS')  
 TOKEN_1 = os.getenv('TOKEN_1')  
 TOKEN_2 = os.getenv('TOKEN_2')  
 
@@ -51,13 +49,9 @@ def truncate_texts(texts, max_tokens=8000, model="text-embedding-3-small"):
 # Получение постов с фильтрацией по дате
 def GetPosts(owner_id, offset, token, last_date):
     last_date_obj = datetime.strptime(last_date, '%Y-%m-%d')
-    proxy = {
-        "http": PROXY_HTTP,
-        "https": PROXY_HTTPS
-    }
     try:
         url = f'https://api.vk.com/method/wall.get?owner_id={owner_id}&count=100&offset={offset}&access_token={token}&v=5.103'
-        response_owner = requests.get(url, timeout=5, proxies=proxy)
+        response_owner = requests.get(url, timeout=5)
 
         if 'available only for community members' not in str(response_owner.json()) and 'wall is disabled' not in str(
                 response_owner.json()):
